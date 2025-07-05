@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fabric.js Editor - Export JSON (No BG Image)</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.cdnfonts.com/css/pinyon-script"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://fonts.cdnfonts.com/css/kelvinch" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy:400,400italic&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Alex+Brush&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700,700i&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Great+Vibes&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Belleza&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pinyon+Script&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alex+Brush&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Charm&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Questrial&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Old+Standard+TT:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Style+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sanchez:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Style+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,400i,700,700i&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bitter:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Style+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alike&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=League+Gothic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Petit+Formal+Script&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bree+Serif&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=UnifrakturCook&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Bitter:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Alike&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Ovo&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cormorant+Garamond:300,400,500,600,700&display=swap" rel="stylesheet">
+
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        background: #f7f7f7;
+        font-family: sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .editor-panel {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .controls {
+        padding: 16px 24px 8px 24px;
+        background: #fff;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        z-index: 2;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+      }
+      .controls label {
+        margin-right: 4px;
+      }
+      .controls input,
+      .controls select {
+        margin-right: 8px;
+      }
+      #canvas-outer-container {
+        flex: 1 1 auto;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        background: #fafafa;
+        width: 100vw;
+        min-height: 400px;
+        min-width: 0;
+        overflow: auto;
+        max-width: 100vw;
+        max-height: 70vh;
+        padding: 20px 0;
+      }
+      #canvas-container {
+        display: inline-block;
+        position: relative;
+        background: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        max-width: 90vw;
+        max-height: 70vh;
+        overflow: hidden;
+      }
+      #c {
+        display: block;
+        margin: 0 auto;
+        background: transparent;
+        width: 100%;
+        height: 100%;
+      }
+      .json-panel {
+        width: 100vw;
+        background: #222;
+        color: #eee;
+        font-size: 15px;
+        box-sizing: border-box;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        border-top: 2px solid #444;
+        margin-top: 0;
+      }
+      .json-panel h2 {
+        margin: 0;
+        padding: 10px 20px 6px 20px;
+        font-size: 17px;
+        background: #232323;
+        border-bottom: 1px solid #333;
+      }
+      #json-output {
+        background: #222;
+        color: #eee;
+        border: none;
+        width: 100%;
+        height: 180px;
+        font-family: monospace;
+        font-size: 15px;
+        resize: none;
+        padding: 16px;
+        box-sizing: border-box;
+        flex: 1 1 auto;
+        overflow: auto;
+      }
+      @media (max-width: 700px) {
+        .controls {
+          flex-direction: column;
+          gap: 8px;
+        }
+        #json-output {
+          height: 120px;
+        }
+        #canvas-container {
+          max-width: 98vw;
+          max-height: 40vh;
+        }
+        #canvas-outer-container {
+          max-height: 40vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="editor-panel">
+      <div class="controls">
+        <button id="addTextBtn">Add Text</button>
+        <button id="addImageBtn">Add Image</button>
+        <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          style="display: none"
+        />
+        <label
+          >Font Size:
+          <input type="number" id="fontSize" value="32" min="8" max="200" />
+        </label>
+        <label
+          >Color:
+          <input
+            type="color"
+            id="fontColorPicker"
+            value="#222222"
+            style="vertical-align: middle"
+          />
+          <input
+            type="text"
+            id="fontColorText"
+            value="#222222"
+            style="width: 90px; vertical-align: middle"
+          />
+        </label>
+        <label
+          >Font Family:
+          <select id="fontFamily">
+            <option value="Arial">Arial</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Comic Sans MS">Comic Sans MS</option>
+            <option value="Pinyon Script">Pinyon Script</option>
+            <option value="Lora">Lora</option>
+            <option value="Kelvinch">Kelvinch</option>
+            <option value="Sorts Mill Goudy">Sorts Mill Goudy</option>
+            <option value="Alex Brush">Alex Brush</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Droid Serif">Droid Serif</option>
+            <option value="Great Vibes">Great Vibes</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Belleza">Belleza</option>
+            <option value="Pinyon script">Pinyon script</option>
+            <option value="Sorts Mill Goudy">Sorts Mill Goudy</option>
+            <option value="Alex Brush">Alex Brush</option>
+            <option value="Charm">Charm</option>
+            <option value="Telegraf">Telegraf</option>
+            <option value="HK Grotesk">HK Grotesk</option>
+            <option value="Garet">Garet</option>
+            <option value="Montserrat Arabic">Montserrat Arabic</option>
+            <option value="Libre Baskerville">Libre Baskerville</option>
+            <option value="Questrial">Questrial</option>
+            <option value="ITC Edwardian script">ITC Edwardian script</option>
+            <option value="Cormorant Garamond">Cormorant Garamond</option>
+            <option value="Cinzel">Cinzel</option>
+            <option value="old Standard TT">old Standard TT</option>
+            <option value="playlist script">playlist script</option>
+            <option value="League Spartan">League Spartan</option>
+            <option value="Sanchez">Sanchez</option>
+            <option value="Crimson Pro">Crimson pro</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="style script">style script</option>
+            <option value="Droid Serif">Droid Serif</option>
+            <option value="Bitter">Bitter</option>
+            <option value="ITC Edwardian script">ITC Edwardian script</option>
+            <option value="Alike">Alike</option>
+            <option value="League Gothic">League Gothic</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Petit Formal script">Petit Formal script</option>
+            <option value="Great Vibes">Great Vibes</option>
+            <option value="Bree Serif">Bree Serif</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Engravers old English">Engravers old English</option>
+            <option value="Bitter">Bitter</option>
+            <option value="Ovo">Ovo</option>
+            <option value="Cormorant Garamond">Cormorant Garamond</option>
+          </select>
+        </label>
+        <button id="boldBtn">Bold</button>
+        <button id="italicBtn">Italic</button>
+        <button id="underlineBtn">Underline</button>
+      </div>
+      <div id="canvas-outer-container">
+        <div id="canvas-container">
+          <canvas id="c" width="900" height="500"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="json-panel">
+      <h2>Live Fabric JSON (canvas size only, no background image)</h2>
+      <textarea id="json-output" readonly></textarea>
+    </div>
+    <script>
+      const canvasEl = document.getElementById("c");
+      const canvas = new fabric.Canvas("c", { selection: false });
+
+      // Color controls
+      const fontColorPicker = document.getElementById("fontColorPicker");
+      const fontColorText = document.getElementById("fontColorText");
+
+      fontColorPicker.oninput = function () {
+        fontColorText.value = this.value;
+        updateActiveText("fill", this.value);
+      };
+      fontColorText.oninput = function () {
+        const val = this.value.trim();
+        if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(val)) {
+          fontColorPicker.value = val;
+        }
+        updateActiveText("fill", val);
+      };
+
+      // WebFont loader for custom fonts
+      function loadFont(font, callback) {
+        const googleFonts = [
+          "Lora",
+          "Sorts Mill Goudy",
+          "Alex Brush",
+          // "Open Sans",
+        ];
+        const customFonts = ["Pinyon Script", "Kelvinch"];
+        if (googleFonts.includes(font)) {
+          WebFont.load({
+            google: { families: [font] },
+            active: callback,
+            inactive: callback,
+          });
+        } else if (customFonts.includes(font)) {
+          let cssUrl = "";
+          if (font === "Pinyon Script")
+            cssUrl = "https://fonts.cdnfonts.com/css/pinyon-script";
+          if (font === "Kelvinch")
+            cssUrl = "https://fonts.cdnfonts.com/css/kelvinch";
+          WebFont.load({
+            custom: { families: [font], urls: [cssUrl] },
+            active: callback,
+            inactive: callback,
+          });
+        } else {
+          callback();
+        }
+      }
+
+      function restrictTextControls(obj) {
+        if (obj && obj.type === "i-text") {
+          obj.lockScalingX = true;
+          obj.lockScalingY = true;
+          obj.lockRotation = true;
+          obj.hasControls = false;
+          obj.hasBorders = true;
+          obj.hoverCursor = "move";
+          obj.selectable = true;
+        }
+      }
+
+      document.getElementById("addTextBtn").onclick = function () {
+        const font = document.getElementById("fontFamily").value;
+        const color = fontColorText.value || "#222222";
+        loadFont(font, function () {
+          const text = new fabric.IText("Edit me", {
+            left: 100,
+            top: 100,
+            fontSize: parseInt(document.getElementById("fontSize").value),
+            fill: color,
+            fontFamily: font,
+            fontWeight: "normal",
+            fontStyle: "normal",
+            underline: false,
+            lockScalingX: true,
+            lockScalingY: true,
+            lockRotation: true,
+            hasControls: false,
+            hasBorders: true,
+            hoverCursor: "move",
+            selectable: true,
+            width: 400,
+          });
+          canvas.add(text).setActiveObject(text);
+          canvas.renderAll();
+          updateJSON();
+        });
+      };
+
+      document.getElementById("addImageBtn").onclick = function () {
+        document.getElementById("imageInput").click();
+      };
+
+      document.getElementById("imageInput").onchange = function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function (f) {
+          fabric.Image.fromURL(
+            f.target.result,
+            function (img) {
+              const imgWidth = img.width;
+              const imgHeight = img.height;
+
+              // Set canvas size to original image size
+              canvas.setWidth(imgWidth);
+              canvas.setHeight(imgHeight);
+              canvasEl.width = imgWidth;
+              canvasEl.height = imgHeight;
+
+              // Apply half scale for visual appearance
+              const scaleFactor = 0.5;
+              img.scaleX = scaleFactor;
+              img.scaleY = scaleFactor;
+
+              // Set background image (visually scaled down)
+              canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                originX: "left",
+                originY: "top",
+                left: 0,
+                top: 0,
+                crossOrigin: "anonymous",
+              });
+
+              // Adjust the container style (so canvas doesn't overflow)
+              const container = document.getElementById("canvas-container");
+              container.style.width = imgWidth * scaleFactor + "px";
+              container.style.height = imgHeight * scaleFactor + "px";
+              container.style.margin = "0 auto";
+
+              canvas.renderAll();
+              updateJSON();
+            },
+            { crossOrigin: "anonymous" }
+          );
+        };
+        reader.readAsDataURL(file);
+        e.target.value = "";
+      };
+
+      function updateActiveText(prop, value) {
+        const obj = canvas.getActiveObject();
+        if (obj && obj.type === "i-text") {
+          if (prop === "fontFamily") {
+            loadFont(value, function () {
+              obj.set(prop, value);
+              canvas.renderAll();
+              updateJSON();
+            });
+          } else {
+            obj.set(prop, value);
+            canvas.renderAll();
+            updateJSON();
+          }
+        }
+      }
+
+      document.getElementById("fontSize").oninput = function () {
+        updateActiveText("fontSize", parseInt(this.value));
+      };
+
+      document.getElementById("fontFamily").onchange = function () {
+        updateActiveText("fontFamily", this.value);
+      };
+
+      document.getElementById("boldBtn").onclick = function () {
+        const obj = canvas.getActiveObject();
+        if (obj && obj.type === "i-text") {
+          obj.set("fontWeight", obj.fontWeight === "bold" ? "normal" : "bold");
+          canvas.renderAll();
+          updateJSON();
+        }
+      };
+      document.getElementById("italicBtn").onclick = function () {
+        const obj = canvas.getActiveObject();
+        if (obj && obj.type === "i-text") {
+          obj.set(
+            "fontStyle",
+            obj.fontStyle === "italic" ? "normal" : "italic"
+          );
+          canvas.renderAll();
+          updateJSON();
+        }
+      };
+      document.getElementById("underlineBtn").onclick = function () {
+        const obj = canvas.getActiveObject();
+        if (obj && obj.type === "i-text") {
+          obj.set("underline", !obj.underline);
+          canvas.renderAll();
+          updateJSON();
+        }
+      };
+      const zoomSlider = document.getElementById("zoomSlider");
+      const zoomValue = document.getElementById("zoomValue");
+
+      // Handle slider change
+      zoomSlider.addEventListener("input", function () {
+        const zoom = parseFloat(this.value);
+        canvas.setZoom(zoom);
+
+        // Optional: Center the canvas in the container
+        const container = document.getElementById("canvas-container");
+        if (container) {
+          const canvasWidth = canvas.getWidth() * zoom;
+          const canvasHeight = canvas.getHeight() * zoom;
+          container.scrollLeft = (canvasWidth - container.clientWidth) / 2;
+          container.scrollTop = (canvasHeight - container.clientHeight) / 2;
+        }
+
+        zoomValue.textContent = Math.round(zoom * 100) + "%";
+      });
+
+      canvas.on("object:added", function (e) {
+        restrictTextControls(e.target);
+      });
+      canvas.on("selection:created", function (e) {
+        restrictTextControls(e.target);
+      });
+      canvas.on("selection:updated", function (e) {
+        restrictTextControls(e.target);
+      });
+
+      canvas.on("selection:created", updateControlsFromActive);
+      canvas.on("selection:updated", updateControlsFromActive);
+
+      function updateControlsFromActive() {
+        const obj = canvas.getActiveObject();
+        if (obj && obj.type === "i-text") {
+          document.getElementById("fontSize").value = obj.fontSize || 32;
+          fontColorPicker.value = obj.fill || "#222222";
+          fontColorText.value = obj.fill || "#222222";
+          document.getElementById("fontFamily").value =
+            obj.fontFamily || "Arial";
+        }
+      }
+
+      // --- ENHANCED JSON EXPORT (NO BG IMAGE) ---
+      function updateJSON() {
+        // Temporarily remove the background image
+        const originalBg = canvas.backgroundImage;
+        canvas.setBackgroundImage(null, canvas.renderAll.bind(canvas));
+
+        const rawJSON = canvas.toJSON([
+          "fontFamily",
+          "fontWeight",
+          "fontStyle",
+          "underline",
+          "width",
+          "height",
+          "fill",
+          "charSpacing",
+          "lineHeight",
+          "textAlign",
+          "scaleX",
+          "scaleY",
+        ]);
+
+        const scaledJSON = JSON.parse(JSON.stringify(rawJSON));
+        const scaleFactor = 2;
+
+        scaledJSON.objects.forEach((obj) => {
+          if (
+            obj.type === "textbox" ||
+            obj.type === "i-text" ||
+            obj.type === "text"
+          ) {
+            obj.left *= scaleFactor;
+            obj.top *= scaleFactor;
+            obj.fontSize *= scaleFactor;
+
+            if (obj.width) obj.width *= scaleFactor;
+            if (obj.height) obj.height *= scaleFactor;
+            if (obj.charSpacing) obj.charSpacing *= scaleFactor;
+          }
+        });
+
+        scaledJSON.width = canvas.getWidth();
+        scaledJSON.height = canvas.getHeight();
+
+        document.getElementById("json-output").value = JSON.stringify(
+          scaledJSON,
+          null,
+          2
+        );
+
+        // Restore the original background image (for visual)
+        canvas.setBackgroundImage(originalBg, canvas.renderAll.bind(canvas));
+      }
+
+      canvas.on("object:modified", updateJSON);
+      canvas.on("object:added", updateJSON);
+      canvas.on("object:removed", updateJSON);
+      canvas.on("text:changed", updateJSON);
+
+      updateJSON();
+    </script>
+  </body>
+</html>

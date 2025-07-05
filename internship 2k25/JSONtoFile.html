@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSONtofile: JSON to Canvas Importer (Accurate)</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <!-- Pinyon Script -->
+    <link
+      href="https://fonts.cdnfonts.com/css/pinyon-script"
+      rel="stylesheet"
+    />
+    <!-- Lora -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Kelvinch -->
+    <link href="https://fonts.cdnfonts.com/css/kelvinch" rel="stylesheet" />
+    <!-- Sorts Mill Goudy -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Sorts+Mill+Goudy:400,400italic&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Alex Brush -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Alex+Brush&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: sans-serif;
+        background: #f7f7f7;
+        margin: 0;
+        padding: 0;
+      }
+      .panel {
+        max-width: 900px;
+        margin: 36px auto;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 24px #0001;
+        padding: 32px;
+      }
+      #canvas-container {
+        border: 1px solid #ddd;
+        background: #fafafa;
+        display: inline-block;
+      }
+      textarea {
+        width: 100%;
+        height: 180px;
+        font-family: monospace;
+        font-size: 15px;
+        margin-bottom: 18px;
+      }
+      .error-msg {
+        color: #ff6b6b;
+        font-size: 15px;
+        min-height: 18px;
+      }
+      @media (max-width: 700px) {
+        #canvas-container {
+          max-width: 98vw;
+          max-height: 40vh;
+        }
+        textarea {
+          height: 120px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel">
+      <h2>JSONtofile: Import Fabric JSON to Canvas</h2>
+      <textarea
+        id="json-input"
+        placeholder="Paste Fabric.js JSON here"
+      ></textarea>
+      <div class="error-msg" id="json-error"></div>
+      <div id="canvas-container">
+        <canvas id="c" width="600" height="350"></canvas>
+      </div>
+    </div>
+    <script>
+      // Font loader
+      function loadFont(font, cb) {
+        const googleFonts = ["Lora", "Sorts Mill Goudy", "Alex Brush"];
+        const customFonts = ["Pinyon Script", "Kelvinch"];
+        if (googleFonts.includes(font)) {
+          WebFont.load({
+            google: { families: [font] },
+            active: cb,
+            inactive: cb,
+          });
+        } else if (customFonts.includes(font)) {
+          let cssUrl = "";
+          if (font === "Pinyon Script")
+            cssUrl = "https://fonts.cdnfonts.com/css/pinyon-script";
+          if (font === "Kelvinch")
+            cssUrl = "https://fonts.cdnfonts.com/css/kelvinch";
+          WebFont.load({
+            custom: { families: [font], urls: [cssUrl] },
+            active: cb,
+            inactive: cb,
+          });
+        } else {
+          cb();
+        }
+      }
+
+      const canvas = new fabric.Canvas("c", { selection: false });
+      const jsonInput = document.getElementById("json-input");
+      const jsonError = document.getElementById("json-error");
+      const canvasContainer = document.getElementById("canvas-container");
+
+      // Helper: Preload all fonts used in objects
+      function preloadFonts(objects, done) {
+        const fonts = Array.from(
+          new Set(
+            (objects || [])
+              .filter((obj) => obj.type === "i-text" && obj.fontFamily)
+              .map((obj) => obj.fontFamily)
+          )
+        );
+        if (fonts.length === 0) return done();
+        let loaded = 0;
+        fonts.forEach((font) => {
+          loadFont(font, () => {
+            loaded++;
+            if (loaded === fonts.length) done();
+          });
+        });
+      }
+
+      // Helper: Load background image if present
+      function setBackgroundImage(bg, callback) {
+        if (bg && bg.src) {
+          fabric.Image.fromURL(
+            bg.src,
+            function (img) {
+              canvas.setBackgroundImage(img, callback, {
+                originX: bg.originX || "left",
+                originY: bg.originY || "top",
+                left: bg.left || 0,
+                top: bg.top || 0,
+                scaleX: bg.scaleX || 1,
+                scaleY: bg.scaleY || 1,
+                crossOrigin: "anonymous",
+              });
+            },
+            { crossOrigin: "anonymous" }
+          );
+        } else {
+          canvas.setBackgroundImage(null, callback);
+        }
+      }
+
+      // Main: Load JSON into canvas
+      function loadJSONToCanvas(jsonStr) {
+        try {
+          const json = JSON.parse(jsonStr);
+
+          // 1. Set canvas size
+          if (json.width && json.height) {
+            canvas.setWidth(json.width);
+            canvas.setHeight(json.height);
+            canvasContainer.style.width = json.width + "px";
+            canvasContainer.style.height = json.height + "px";
+          }
+
+          // 2. Preload fonts, then background, then load JSON
+          preloadFonts(json.objects, () => {
+            setBackgroundImage(json.backgroundImage, () => {
+              canvas.loadFromJSON(json, () => {
+                // Ensure all text objects are rendered with correct width/position
+                (canvas.getObjects() || []).forEach((obj) => {
+                  if (obj.type === "i-text" && obj.width) {
+                    obj.set({ width: obj.width });
+                    obj.initDimensions && obj.initDimensions();
+                  }
+                });
+                canvas.renderAll();
+              });
+            });
+          });
+
+          jsonError.textContent = "";
+        } catch (e) {
+          jsonError.textContent = "Invalid JSON: " + e.message;
+        }
+      }
+
+      // Listen for changes in JSON input and update canvas
+      jsonInput.addEventListener("input", function () {
+        loadJSONToCanvas(this.value);
+      });
+
+      // Optionally: Load a default JSON for demo
+      const defaultJSON = {
+        version: "5.3.0",
+        width: 600,
+        height: 350,
+        objects: [
+          {
+            type: "i-text",
+            left: 120,
+            top: 120,
+            width: 250,
+            height: 45,
+            fill: "#2d2dff",
+            fontSize: 36,
+            fontFamily: "Georgia",
+            fontWeight: "bold",
+            text: "Paste JSON here!",
+          },
+        ],
+      };
+      jsonInput.value = JSON.stringify(defaultJSON, null, 2);
+      loadJSONToCanvas(jsonInput.value);
+    </script>
+  </body>
+</html>
